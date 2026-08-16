@@ -1,0 +1,159 @@
+{
+  "$schema": "https://raw.githubusercontent.com/wellmanifest/dsl/b7d0595c95e5abbb48ebfdbdae0bc6d43c6f82f4/schemas/dsl-manifest.schema.json",
+  "schema": "wellmanifest.dsl/manifest/v1",
+  "id": "wellmanifest.auth-lifecycle",
+  "name": "Wellmanifest Auth Lifecycle",
+  "version": "0.1.0-dev",
+  "status": "experimental",
+  "purpose": "AuthN / membership-binding profile vocabulary and binding receipts (OTP, access-api, session-continue)",
+  "domain": "authn-membership-binding",
+  "owners": [
+    {
+      "kind": "repository",
+      "id": "github:wellmanifest/auth-lifecycle",
+      "responsibilities": [
+        "semantics",
+        "validation",
+        "compatibility"
+      ]
+    }
+  ],
+  "source": {
+    "repository": "https://github.com/wellmanifest/auth-lifecycle",
+    "path": "schemas/auth-lifecycle.schema.json",
+    "declaredVersion": "1",
+    "canonical": "json-ast",
+    "mediaType": "application/schema+json",
+    "selectors": []
+  },
+  "ownedPaths": [
+    "dsl-manifest.json",
+    "schemas/**",
+    "standard/**",
+    "docs/**",
+    "README.md",
+    "AGENTS.md"
+  ],
+  "artifacts": [
+    {
+      "path": "schemas/auth-lifecycle.schema.json",
+      "role": "normative-source",
+      "digest": "sha256:11132ebcf6f221cec2ce1929774b7864fe54b3935a59f86d9d90cf8ff4974e82"
+    },
+    {
+      "path": "schemas/auth-lifecycle.v1.gbnf",
+      "role": "parser-contract",
+      "digest": "sha256:7ca30d336bdf7f52b71861354e09751fafc58ae31230d4709f3b4a55e39c009c"
+    },
+    {
+      "path": "standard/conformance.py",
+      "role": "parser-contract",
+      "digest": "sha256:b0cc21e3c1dc0daf6a0e17b379945273b7faa4c5889a3860f644352b083d10fc"
+    },
+    {
+      "path": "docs/SPEC.md",
+      "role": "documentation",
+      "digest": "sha256:9fd507850a352ae7123c35f235d4a1fe9e184750c1555f414515198c016f48de"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "role": "documentation",
+      "digest": "sha256:881004e31a650cf30243b5e97f92d03edbcb56f79599a4f9d977e077e96896d4"
+    },
+    {
+      "path": "standard/fixtures/valid/otp-email-profile.json",
+      "role": "example",
+      "digest": "sha256:af61dc0e0294d0f7f89d39e1c0291ad6d671e59c75b838f0769f9a4fe972dcc7"
+    },
+    {
+      "path": "standard/fixtures/invalid/unknown-profile.json",
+      "role": "example",
+      "digest": "sha256:81609d9eca5cfeab97d6917b5374f3176f76fd88cf6134c8393f1d7c748876a9"
+    }
+  ],
+  "namespaces": [
+    {
+      "prefix": "auth-lifecycle",
+      "uri": "https://github.com/wellmanifest/auth-lifecycle/"
+    }
+  ],
+  "projections": [],
+  "lifecycle": {
+    "compatibility": "semver",
+    "stability": "experimental",
+    "breaking": "major",
+    "additive": "minor",
+    "fix": "patch"
+  },
+  "semantics": {
+    "effectModel": "declarative-policy",
+    "unknownPolicy": "reject",
+    "authoritySchema": null
+  },
+  "llm": {
+    "mode": "none",
+    "requestSchemas": [],
+    "responseSchemas": [],
+    "naturalLanguage": "forbidden",
+    "sourceSchema": null,
+    "modelAuthority": "none",
+    "strict": true
+  },
+  "documentation": {
+    "vocabularyKind": "documents",
+    "commandRoot": "docs",
+    "errorRoot": "docs",
+    "criticalRoot": "docs",
+    "commands": [
+      "VALIDATE"
+    ],
+    "errorCodes": [
+      "AUTHN-PROFILE-001",
+      "AUTHN-BOUND-001",
+      "AUTHN-PAY-001"
+    ],
+    "criticalCodes": []
+  },
+  "findingPolicy": {
+    "schema": "wellmanifest.dsl/findings/v1",
+    "requiredProducers": [
+      "wellmanifest.auth-lifecycle.conformance"
+    ],
+    "securityProducers": [],
+    "blockingSeverities": [
+      "critical"
+    ],
+    "requireEvaluable": true,
+    "blockUnresolvedSecurity": true
+  },
+  "publicationPolicy": {
+    "declaredTier": "review",
+    "deterministic": true,
+    "independentReview": true,
+    "externalAuthority": false,
+    "runtimeIsolation": false
+  },
+  "conformance": {
+    "levels": [
+      "manifest",
+      "schema"
+    ],
+    "commands": [
+      "python3 standard/conformance.py --all"
+    ],
+    "validExamples": [
+      "standard/fixtures/valid/otp-email-profile.json"
+    ],
+    "invalidExamples": [
+      "standard/fixtures/invalid/unknown-profile.json"
+    ]
+  },
+  "mappings": [],
+  "adopt": [
+    "wellmanifest/new-project",
+    "wellmanifest/authority-lifecycle",
+    "wellmanifest/saas-lifecycle",
+    "wellmanifest/account-runtime",
+    "wellmanifest/dsl"
+  ]
+}

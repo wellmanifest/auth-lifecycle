@@ -1,0 +1,21 @@
+{
+  "schema": "wellmanifest.auth-lifecycle/profile/v1",
+  "profileId": "otp-email",
+  "purpose": "Bind membership via one-time code to a verified mailbox before checkout.",
+  "emitsMembershipSignal": true,
+  "authorityBoundary": {
+    "issuesGrants": false,
+    "home": "wellmanifest/authority-lifecycle"
+  },
+  "commercialBoundary": {
+    "processesPayment": false,
+    "consumesOnboardingProfile": "membership-before-payment",
+    "home": "wellmanifest/saas-lifecycle"
+  },
+  "otpEmail": {
+    "channel": "email",
+    "codeEntropyBitsMin": 20,
+    "ttlSecondsMax": 600,
+    "maxAttempts": 5
+  }
+}

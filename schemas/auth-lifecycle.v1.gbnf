@@ -1,0 +1,46 @@
+# wellmanifest.auth-lifecycle/v1 — AuthN profile or binding receipt (GBNF sketch)
+root ::= profile | receipt
+
+profile ::= "{" ws
+  "\"schema\"" ws ":" ws "\"wellmanifest.auth-lifecycle/profile/v1\"" ws "," ws
+  "\"profileId\"" ws ":" ws profile-id ws "," ws
+  "\"purpose\"" ws ":" ws string ws "," ws
+  "\"emitsMembershipSignal\"" ws ":" ws "true" ws "," ws
+  "\"authorityBoundary\"" ws ":" ws authority-boundary ws "," ws
+  "\"commercialBoundary\"" ws ":" ws commercial-boundary
+  (ws "," ws "\"otpEmail\"" ws ":" ws otp-email)?
+  ws "}"
+
+receipt ::= "{" ws
+  "\"schema\"" ws ":" ws "\"wellmanifest.auth-lifecycle/binding-receipt/v1\"" ws "," ws
+  "\"receiptId\"" ws ":" ws receipt-id ws "," ws
+  "\"profileId\"" ws ":" ws profile-id ws "," ws
+  "\"subjectDigest\"" ws ":" ws digest ws "," ws
+  "\"boundAt\"" ws ":" ws string ws "," ws
+  "\"membershipVerified\"" ws ":" ws "true" ws "," ws
+  "\"paymentNotImplied\"" ws ":" ws "true"
+  (ws "," ws "\"onboardingProfileRef\"" ws ":" ws "\"membership-before-payment\"")?
+  ws "}"
+
+profile-id ::= "\"otp-email\"" | "\"access-api\"" | "\"session-continue\""
+authority-boundary ::= "{" ws
+  "\"issuesGrants\"" ws ":" ws "false" ws "," ws
+  "\"home\"" ws ":" ws "\"wellmanifest/authority-lifecycle\""
+  ws "}"
+commercial-boundary ::= "{" ws
+  "\"processesPayment\"" ws ":" ws "false" ws "," ws
+  "\"consumesOnboardingProfile\"" ws ":" ws "\"membership-before-payment\"" ws "," ws
+  "\"home\"" ws ":" ws "\"wellmanifest/saas-lifecycle\""
+  ws "}"
+otp-email ::= "{" ws
+  "\"channel\"" ws ":" ws "\"email\"" ws "," ws
+  "\"codeEntropyBitsMin\"" ws ":" ws number ws "," ws
+  "\"ttlSecondsMax\"" ws ":" ws number ws "," ws
+  "\"maxAttempts\"" ws ":" ws number
+  ws "}"
+
+receipt-id ::= "\"authn://receipt/" [a-z0-9] [a-z0-9._/-]* "\""
+digest ::= "\"sha256:" [a-f0-9]{64} "\""
+string ::= "\"" ([^"\\] | "\\" ["\\/bfnrt])* "\""
+number ::= [1-9] [0-9]{0,5}
+ws ::= [ \t\n\r]*

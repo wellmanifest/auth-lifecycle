@@ -4,7 +4,7 @@ Normative Wellmanifest domain pack for **authentication / membership binding**
 profiles (OTP, magic-link, access-code, session bind) used before commercial
 checkout.
 
-Status: `0.1.0-dev` skeleton. Governed implementation pending.
+Status: `0.1.0-dev` — closed AuthN vocabulary + schema stub.
 
 ## HOME vs ADOPT
 
@@ -20,7 +20,7 @@ Status: `0.1.0-dev` skeleton. Governed implementation pending.
 This pack owns AuthN profile vocabulary and fail-closed binding receipts. It
 does not issue authority grants, process payments or provision tenants.
 
-## Closed profile ids (draft)
+## Closed profile ids
 
 | Profile id | Meaning |
 | --- | --- |
@@ -30,14 +30,24 @@ does not issue authority grants, process payments or provision tenants.
 
 Unknown profile ids fail closed (`AUTHN-PROFILE-001`).
 
+## Artifacts
+
+- Spec: `docs/SPEC.md`
+- Schema: `schemas/auth-lifecycle.schema.json`
+- GBNF: `schemas/auth-lifecycle.v1.gbnf`
+- Fixtures: `standard/fixtures/**`
+
 ## Conformance
 
 ```bash
 python3 standard/conformance.py --all
 ```
 
-The stub currently checks document digests and closed profile vocabulary only.
+Checks document digests, closed profile vocabulary, schema enum alignment,
+valid `otp-email` fixture, and that unknown-profile fixtures stay outside the
+closed set.
 
 ## Ticket
 
-See `project/ticket-001/README.md`.
+See `project/ticket-001/README.md` (bootstrap) and `project/ticket-002/`
+(normative OTP schema).

@@ -9,14 +9,14 @@ lifecycle docs.
 
 ## Acceptance criteria
 
-- [ ] AC-01: Repository exists under `wellmanifest/auth-lifecycle` with
+- [x] AC-01: Repository exists under `wellmanifest/auth-lifecycle` with
       `HOME wellmanifest` / `shape domain_pack` placement.
-- [ ] AC-02: Closed draft profile vocabulary documented (`otp-email`,
+- [x] AC-02: Closed draft profile vocabulary documented (`otp-email`,
       `access-api`, `session-continue`) with fail-closed unknown-id behavior.
-- [ ] AC-03: Cross-refs to authority-lifecycle, account-runtime, saas-lifecycle
+- [x] AC-03: Cross-refs to authority-lifecycle, account-runtime, saas-lifecycle
       and poa are ADOPT-only (no duplicated grant/payment rules).
-- [ ] AC-04: `standard/conformance.py --all` passes as a digest/vocabulary stub.
-- [ ] AC-05: Adopt `wellmanifest/new-project` governance baseline.
+- [x] AC-04: `standard/conformance.py --all` passes as a digest/vocabulary stub.
+- [x] AC-05: Adopt `wellmanifest/new-project` governance baseline.
 
 ## Out of scope
 

@@ -1,0 +1,15 @@
+{
+  "schema": "wellmanifest.auth-lifecycle/profile/v1",
+  "profileId": "password-login",
+  "purpose": "Unknown profile must fail closed.",
+  "emitsMembershipSignal": true,
+  "authorityBoundary": {
+    "issuesGrants": false,
+    "home": "wellmanifest/authority-lifecycle"
+  },
+  "commercialBoundary": {
+    "processesPayment": false,
+    "consumesOnboardingProfile": "membership-before-payment",
+    "home": "wellmanifest/saas-lifecycle"
+  }
+}

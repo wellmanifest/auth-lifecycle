@@ -1,0 +1,32 @@
+{
+  "schema": "wellmanifest.new-project/intent/v1",
+  "ticket": "ticket-002",
+  "summary": "Normative AuthN OTP schema and membership-before-payment xrefs",
+  "placement": {
+    "home": "wellmanifest",
+    "shape": "domain_pack",
+    "runtimeOwner": null,
+    "adopt": [
+      "wellmanifest/new-project",
+      "wellmanifest/authority-lifecycle",
+      "wellmanifest/saas-lifecycle",
+      "wellmanifest/account-runtime",
+      "wellmanifest/dsl"
+    ]
+  },
+  "allowedPaths": [
+    "README.md",
+    "AGENTS.md",
+    "VERSION",
+    "CHANGELOG.md",
+    "TODO.md",
+    "docs/**",
+    "schemas/**",
+    "standard/**",
+    "dsl-manifest.json",
+    "project/ticket-002/**"
+  ],
+  "goal": {
+    "outcome": "Closed otp-email AuthN profile is normative so portals ADOPT profile ids and saas membership-before-payment without duplicating AuthN rules."
+  }
+}

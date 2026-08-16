@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wellmanifest.dev/schemas/auth-lifecycle/v1",
+  "title": "Wellmanifest Auth Lifecycle (AuthN / membership binding)",
+  "description": "Closed AuthN profile vocabulary and binding receipts. Does not issue AuthZ grants or process payments.",
+  "x-home": "wellmanifest",
+  "x-shape": "domain_pack",
+  "x-adopts": [
+    "wellmanifest/authority-lifecycle",
+    "wellmanifest/saas-lifecycle",
+    "wellmanifest/account-runtime",
+    "wellmanifest/poa"
+  ],
+  "oneOf": [
+    {"$ref": "#/$defs/authnProfile"},
+    {"$ref": "#/$defs/bindingReceipt"}
+  ],
+  "$defs": {
+    "profileId": {
+      "type": "string",
+      "enum": ["otp-email", "access-api", "session-continue"],
+      "description": "Closed AuthN profile ids. Unknown ids fail closed as AUTHN-PROFILE-001."
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "isoDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "authnProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "profileId", "purpose", "emitsMembershipSignal", "authorityBoundary", "commercialBoundary"],
+      "properties": {
+        "schema": {"const": "wellmanifest.auth-lifecycle/profile/v1"},
+        "profileId": {"$ref": "#/$defs/profileId"},
+        "purpose": {"type": "string", "minLength": 8, "maxLength": 240},
+        "emitsMembershipSignal": {"const": true},
+        "authorityBoundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["issuesGrants", "home"],
+          "properties": {
+            "issuesGrants": {"const": false},
+            "home": {"const": "wellmanifest/authority-lifecycle"}
+          }
+        },
+        "commercialBoundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["processesPayment", "consumesOnboardingProfile", "home"],
+          "properties": {
+            "processesPayment": {"const": false},
+            "consumesOnboardingProfile": {"const": "membership-before-payment"},
+            "home": {"const": "wellmanifest/saas-lifecycle"}
+          }
+        },
+        "otpEmail": {
+          "description": "Present only when profileId is otp-email.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["channel", "codeEntropyBitsMin", "ttlSecondsMax", "maxAttempts"],
+          "properties": {
+            "channel": {"const": "email"},
+            "codeEntropyBitsMin": {"type": "integer", "minimum": 20, "maximum": 128},
+            "ttlSecondsMax": {"type": "integer", "minimum": 60, "maximum": 3600},
+            "maxAttempts": {"type": "integer", "minimum": 1, "maximum": 10}
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"profileId": {"const": "otp-email"}}, "required": ["profileId"]},
+          "then": {"required": ["otpEmail"]}
+        }
+      ]
+    },
+    "bindingReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "receiptId",
+        "profileId",
+        "subjectDigest",
+        "boundAt",
+        "membershipVerified",
+        "paymentNotImplied"
+      ],
+      "properties": {
+        "schema": {"const": "wellmanifest.auth-lifecycle/binding-receipt/v1"},
+        "receiptId": {
+          "type": "string",
+          "pattern": "^authn://receipt/[a-z0-9][a-z0-9._/-]*$",
+          "maxLength": 240
+        },
+        "profileId": {"$ref": "#/$defs/profileId"},
+        "subjectDigest": {"$ref": "#/$defs/digest"},
+        "boundAt": {"$ref": "#/$defs/isoDateTime"},
+        "membershipVerified": {"const": true},
+        "paymentNotImplied": {"const": true},
+        "onboardingProfileRef": {
+          "const": "membership-before-payment",
+          "description": "Signal consumed by saas-lifecycle; not a payment authorization."
+        }
+      }
+    }
+  }
+}
