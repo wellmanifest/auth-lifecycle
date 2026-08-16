@@ -17,6 +17,16 @@ Status: `0.1.0-dev` — closed AuthN vocabulary + schema stub.
     *signal* via onboarding profile `membership-before-payment`
   - `wellmanifest/poa` — plan / grant / receipt boundary for auth processes
 
+### Boundary matrix (LC-030)
+
+| Concern | HOME | Notes |
+| --- | --- | --- |
+| AuthN profile ids + binding receipts | **this pack** | `otp-email`, `access-api`, `session-continue` |
+| AuthZ grants / leases / revoke | `authority-lifecycle` | ADOPT xref only |
+| Isolated tool runtimes | `account-runtime` | Binding ≠ credential transfer |
+| Commercial onboarding order | `saas-lifecycle` | Profile id `membership-before-payment` only |
+| Portal OTP handlers | `subactor/www-sub-actor` | ADOPT profile ids; runtime implements |
+
 This pack owns AuthN profile vocabulary and fail-closed binding receipts. It
 does not issue authority grants, process payments or provision tenants.
 

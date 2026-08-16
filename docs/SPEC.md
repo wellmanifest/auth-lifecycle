@@ -5,9 +5,9 @@
 | Concern | HOME | Notes |
 | --- | --- | --- |
 | AuthN profile ids + binding receipts | **this pack** | `otp-email`, `access-api`, `session-continue` |
-| AuthZ grants / leases / revoke | `wellmanifest/authority-lifecycle` | ADOPT xref only |
+| AuthZ grants / leases / revoke | `wellmanifest/authority-lifecycle` | ADOPT xref only (see pack README LC-030) |
 | Commercial onboarding order | `wellmanifest/saas-lifecycle` | Consumes membership **signal**; profile id `membership-before-payment` |
-| Isolated tool runtimes | `wellmanifest/account-runtime` | Binding ≠ credential transfer |
+| Isolated tool runtimes | `wellmanifest/account-runtime` | Binding ≠ credential transfer (see pack README LC-030) |
 
 ## Fail-closed codes
 
