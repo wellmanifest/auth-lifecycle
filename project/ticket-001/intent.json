@@ -1,0 +1,30 @@
+{
+  "schema": "wellmanifest.new-project/intent/v1",
+  "ticket": "ticket-001",
+  "summary": "Bootstrap auth-lifecycle AuthN domain pack",
+  "placement": {
+    "home": "wellmanifest",
+    "shape": "domain_pack",
+    "runtimeOwner": null,
+    "adopt": [
+      "wellmanifest/new-project",
+      "wellmanifest/authority-lifecycle",
+      "wellmanifest/account-runtime",
+      "wellmanifest/saas-lifecycle",
+      "wellmanifest/poa"
+    ]
+  },
+  "allowedPaths": [
+    "README.md",
+    "AGENTS.md",
+    "VERSION",
+    "CHANGELOG.md",
+    "TODO.md",
+    "docs/**",
+    "standard/**",
+    "project/ticket-001/**"
+  ],
+  "goal": {
+    "outcome": "AuthN profile HOME exists so membership-before-payment can ADOPT OTP/access binding without owning AuthZ or payments."
+  }
+}
