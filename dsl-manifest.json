@@ -14,7 +14,9 @@
       "responsibilities": [
         "semantics",
         "validation",
-        "compatibility"
+        "compatibility",
+        "runtime",
+        "security"
       ]
     }
   ],
@@ -53,12 +55,32 @@
     {
       "path": "docs/SPEC.md",
       "role": "documentation",
-      "digest": "sha256:9fd507850a352ae7123c35f235d4a1fe9e184750c1555f414515198c016f48de"
+      "digest": "sha256:d5db0fcd4eba0547e63abe5731fbd1c00377e9e3dfe028602e88f61c3c901c84"
     },
     {
       "path": "docs/ARCHITECTURE.md",
       "role": "documentation",
       "digest": "sha256:881004e31a650cf30243b5e97f92d03edbcb56f79599a4f9d977e077e96896d4"
+    },
+    {
+      "path": "docs/VALIDATE.md",
+      "role": "documentation",
+      "digest": "sha256:b027a6c9da95351eafef6991fe63883a0848c431385d16262a25699c39fd0723"
+    },
+    {
+      "path": "docs/ERROR/AUTHN-PROFILE-001.md",
+      "role": "documentation",
+      "digest": "sha256:ba76e18b566603feaf12c1fe7ee733f4f38906bff1a865ef93a41530837196cd"
+    },
+    {
+      "path": "docs/ERROR/AUTHN-BOUND-001.md",
+      "role": "documentation",
+      "digest": "sha256:4e65ba2e12bea62db0718f715205f07b32cf73cfd7b58e1c843b4f563d69d66b"
+    },
+    {
+      "path": "docs/ERROR/AUTHN-PAY-001.md",
+      "role": "documentation",
+      "digest": "sha256:0eea33aaeeed8d30d08d177bcf082e73bd471326aedeeadd062d5af7c02ed4f3"
     },
     {
       "path": "standard/fixtures/valid/otp-email-profile.json",
@@ -107,8 +129,8 @@
   "documentation": {
     "vocabularyKind": "documents",
     "commandRoot": "docs",
-    "errorRoot": "docs",
-    "criticalRoot": "docs",
+    "errorRoot": "docs/ERROR",
+    "criticalRoot": "docs/CRITICAL",
     "commands": [
       "VALIDATE"
     ],
@@ -124,7 +146,9 @@
     "requiredProducers": [
       "wellmanifest.auth-lifecycle.conformance"
     ],
-    "securityProducers": [],
+    "securityProducers": [
+      "wellmanifest.auth-lifecycle.conformance"
+    ],
     "blockingSeverities": [
       "critical"
     ],
@@ -141,7 +165,8 @@
   "conformance": {
     "levels": [
       "manifest",
-      "schema"
+      "contract",
+      "runtime"
     ],
     "commands": [
       "python3 standard/conformance.py --all"
@@ -150,15 +175,9 @@
       "standard/fixtures/valid/otp-email-profile.json"
     ],
     "invalidExamples": [
-      "standard/fixtures/invalid/unknown-profile.json"
+      "standard/fixtures/invalid/unknown-profile.json",
+      "standard/fixtures/invalid/payment-as-membership.json"
     ]
   },
-  "mappings": [],
-  "adopt": [
-    "wellmanifest/new-project",
-    "wellmanifest/authority-lifecycle",
-    "wellmanifest/saas-lifecycle",
-    "wellmanifest/account-runtime",
-    "wellmanifest/dsl"
-  ]
+  "mappings": []
 }
