@@ -21,7 +21,8 @@ REQUIRED_DOCS = (
     PACK / "schemas/auth-lifecycle.v1.gbnf",
 )
 VALID_FIXTURE = ROOT / "fixtures/valid/otp-email-profile.json"
-INVALID_FIXTURE = ROOT / "fixtures/invalid/unknown-profile.json"
+INVALID_UNKNOWN = ROOT / "fixtures/invalid/unknown-profile.json"
+INVALID_PAYMENT_AS_MEMBERSHIP = ROOT / "fixtures/invalid/payment-as-membership.json"
 
 
 class ContractError(ValueError):
@@ -72,6 +73,29 @@ def check_profile_document(doc: dict, *, expect_valid: bool) -> None:
                 raise ContractError("otp-email profile requires otpEmail.channel=email")
 
 
+def receipt_deny_code(doc: dict) -> str | None:
+    """Return fail-closed code if a binding receipt must be rejected."""
+    if doc.get("schema") != "wellmanifest.auth-lifecycle/binding-receipt/v1":
+        return "AUTHN-BOUND-001"
+    if doc.get("membershipVerified") is not True:
+        return "AUTHN-BOUND-001"
+    if doc.get("paymentNotImplied") is not True:
+        return "AUTHN-PAY-001"
+    profile_id = doc.get("profileId")
+    if profile_id not in CLOSED_PROFILES:
+        return "AUTHN-PROFILE-001"
+    return None
+
+
+def assert_payment_as_membership_fixture(doc: dict) -> None:
+    """Fixture must be shaped so receipt_deny_code returns AUTHN-PAY-001."""
+    code = receipt_deny_code(doc)
+    if code != "AUTHN-PAY-001":
+        raise ContractError(
+            f"payment-as-membership fixture must deny with AUTHN-PAY-001, got {code!r}"
+        )
+
+
 def run() -> dict:
     for path in REQUIRED_DOCS:
         if not path.is_file():
@@ -98,8 +122,10 @@ def run() -> dict:
 
     valid = load_json(VALID_FIXTURE)
     check_profile_document(valid, expect_valid=True)
-    invalid = load_json(INVALID_FIXTURE)
-    check_profile_document(invalid, expect_valid=False)
+    unknown = load_json(INVALID_UNKNOWN)
+    check_profile_document(unknown, expect_valid=False)
+    payment_as_membership = load_json(INVALID_PAYMENT_AS_MEMBERSHIP)
+    assert_payment_as_membership_fixture(payment_as_membership)
 
     return {
         "schema": "wellmanifest.auth-lifecycle-conformance/v1",
@@ -107,7 +133,10 @@ def run() -> dict:
         "profiles": list(CLOSED_PROFILES),
         "fixtures": {
             "valid": str(VALID_FIXTURE.relative_to(PACK)),
-            "invalid_unknown_profile": str(INVALID_FIXTURE.relative_to(PACK)),
+            "invalid_unknown_profile": str(INVALID_UNKNOWN.relative_to(PACK)),
+            "invalid_payment_as_membership": str(
+                INVALID_PAYMENT_AS_MEMBERSHIP.relative_to(PACK)
+            ),
         },
         "digests": {
             str(path.relative_to(PACK)): "sha256:" + file_digest(path)

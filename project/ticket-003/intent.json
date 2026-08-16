@@ -1,0 +1,25 @@
+{
+  "schema": "wellmanifest.new-project/intent/v1",
+  "ticket": "ticket-003",
+  "summary": "Negative AuthN fixtures for unknown profile and payment-as-membership",
+  "placement": {
+    "home": "wellmanifest",
+    "shape": "domain_pack",
+    "runtimeOwner": null,
+    "adopt": [
+      "wellmanifest/saas-lifecycle",
+      "wellmanifest/authority-lifecycle"
+    ]
+  },
+  "allowedPaths": [
+    "CHANGELOG.md",
+    "TODO.md",
+    "standard/**",
+    "docs/**",
+    "dsl-manifest.json",
+    "project/ticket-003/**"
+  ],
+  "goal": {
+    "outcome": "Conformance denies payment-as-membership (AUTHN-PAY-001) and keeps unknown profiles fail-closed."
+  }
+}

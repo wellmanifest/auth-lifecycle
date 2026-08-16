@@ -1,0 +1,10 @@
+{
+  "schema": "wellmanifest.auth-lifecycle/binding-receipt/v1",
+  "receiptId": "authn://receipt/example/payment-as-membership",
+  "profileId": "otp-email",
+  "subjectDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "boundAt": "2026-08-16T12:00:00Z",
+  "membershipVerified": true,
+  "paymentNotImplied": false,
+  "onboardingProfileRef": "membership-before-payment"
+}

@@ -48,7 +48,7 @@
     {
       "path": "standard/conformance.py",
       "role": "parser-contract",
-      "digest": "sha256:b0cc21e3c1dc0daf6a0e17b379945273b7faa4c5889a3860f644352b083d10fc"
+      "digest": "sha256:9ed458e5df441d718656786ad7d249b459abb23c9c7c15fc0690c5e240618976"
     },
     {
       "path": "docs/SPEC.md",
@@ -69,6 +69,11 @@
       "path": "standard/fixtures/invalid/unknown-profile.json",
       "role": "example",
       "digest": "sha256:81609d9eca5cfeab97d6917b5374f3176f76fd88cf6134c8393f1d7c748876a9"
+    },
+    {
+      "path": "standard/fixtures/invalid/payment-as-membership.json",
+      "role": "example",
+      "digest": "sha256:5f8e7dbdee96fbae5e7c9a04c06e32b61c56cbf82abec388f2fe04489c21e80f"
     }
   ],
   "namespaces": [
