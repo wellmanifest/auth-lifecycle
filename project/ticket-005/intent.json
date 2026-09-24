@@ -1,0 +1,20 @@
+{
+  "schema": "wellmanifest.new-project/intent/v1",
+  "ticket": "ticket-005",
+  "summary": "Add a real conformance PR check before Validator enrollment",
+  "placement": {
+    "home": "wellmanifest",
+    "shape": "domain_pack",
+    "runtimeOwner": null,
+    "adopt": ["wellmanifest/auth-lifecycle"]
+  },
+  "allowedPaths": [
+    ".github/workflows/conformance.yml",
+    "docs/README.md",
+    "docs/information/auth-lifecycle-ci.md",
+    "project/ticket-005/**"
+  ],
+  "goal": {
+    "outcome": "A conformance check executes on PR merge results and is required by the protected Validator registry before publication."
+  }
+}
