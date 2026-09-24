@@ -19,10 +19,44 @@ REQUIRED_DOCS = (
     PACK / "VERSION",
     PACK / "schemas/auth-lifecycle.schema.json",
     PACK / "schemas/auth-lifecycle.v1.gbnf",
+    PACK / "docs/FEDERATION.md",
+    PACK / "schemas/identity-federation.schema.json",
 )
 VALID_FIXTURE = ROOT / "fixtures/valid/otp-email-profile.json"
 INVALID_UNKNOWN = ROOT / "fixtures/invalid/unknown-profile.json"
 INVALID_PAYMENT_AS_MEMBERSHIP = ROOT / "fixtures/invalid/payment-as-membership.json"
+
+# Identity federation profile (docs/FEDERATION.md).
+PLANE_SCHEMA = "wellmanifest.auth-lifecycle/identity-plane/v1"
+CONNECTOR_SCHEMA = "wellmanifest.auth-lifecycle/connector/v1"
+ALLOWED_GRANTS = (
+    "authorization_code",
+    "refresh_token",
+    "urn:ietf:params:oauth:grant-type:device_code",
+    "urn:ietf:params:oauth:grant-type:token-exchange",
+)
+CONNECTOR_AUTH_KINDS = (
+    "oauth2-authorization-code-pkce",
+    "github-app-installation",
+    "atlassian-oauth2-3lo",
+    "scoped-api-token",
+)
+WEBHOOK_VERIFICATION = ("hmac-sha256", "jwt", "shared-token")
+FEDERATION_VALID = (
+    ROOT / "fixtures/valid/identity-plane.json",
+    ROOT / "fixtures/valid/connector-github.json",
+    ROOT / "fixtures/valid/connector-gitlab.json",
+    ROOT / "fixtures/valid/connector-atlassian.json",
+    ROOT / "fixtures/valid/connector-cloudflare.json",
+)
+FEDERATION_INVALID = {
+    ROOT / "fixtures/invalid/plane-role-from-host.json": "AUTHN-FED-001",
+    ROOT / "fixtures/invalid/plane-password-grant.json": "AUTHN-FED-002",
+    ROOT / "fixtures/invalid/connector-token-export.json": "AUTHN-FED-003",
+    ROOT / "fixtures/invalid/plane-plain-errors.json": "AUTHN-FED-004",
+    ROOT / "fixtures/invalid/plane-shared-cookie.json": "AUTHN-FED-005",
+    ROOT / "fixtures/invalid/connector-unverified-webhook.json": "AUTHN-FED-006",
+}
 
 
 class ContractError(ValueError):
@@ -87,6 +121,70 @@ def receipt_deny_code(doc: dict) -> str | None:
     return None
 
 
+def plane_deny_code(doc: dict) -> str | None:
+    deployment = doc.get("deployment") or {}
+    if (deployment.get("roleFromRequestHeaders") is not False
+            or deployment.get("dedicatedProcess") is not True
+            or deployment.get("dedicatedDataStore") is not True):
+        return "AUTHN-FED-001"
+    protocol = doc.get("protocol") or {}
+    grants = protocol.get("grantTypes") or []
+    if (not grants or any(grant not in ALLOWED_GRANTS for grant in grants)
+            or protocol.get("pkceMethods") != ["S256"]
+            or protocol.get("oidcDiscovery") != "/.well-known/openid-configuration"):
+        return "AUTHN-FED-002"
+    errors = doc.get("errors") or {}
+    if (errors.get("mediaType") != "application/problem+json" or not errors.get("codes")
+            or errors.get("traceparent") is not True or protocol.get("problemDetails") is not True):
+        return "AUTHN-FED-004"
+    sessions = doc.get("sessions") or {}
+    if sessions.get("cookieScope") != "host-only" or sessions.get("httpOnly") is not True:
+        return "AUTHN-FED-005"
+    audit = doc.get("audit") or {}
+    if audit.get("failures") is not True or audit.get("secretsRedacted") is not True:
+        return "AUTHN-FED-004"
+    return None
+
+
+def connector_deny_code(doc: dict) -> str | None:
+    if doc.get("authKind") not in CONNECTOR_AUTH_KINDS:
+        return "AUTHN-PROFILE-001"
+    custody = doc.get("custody") or {}
+    if (custody.get("vault") != "envelope-encrypted" or custody.get("exportRefreshToken") is not False
+            or custody.get("consumerAccess") not in ("token-exchange", "broker-proxy")):
+        return "AUTHN-FED-003"
+    webhooks = doc.get("webhooks") or {}
+    if webhooks.get("supported") and webhooks.get("verification") not in WEBHOOK_VERIFICATION:
+        return "AUTHN-FED-006"
+    return None
+
+
+def federation_deny_code(doc: dict) -> str | None:
+    """Return the fail-closed code for an identity plane or connector document."""
+    if doc.get("schema") == PLANE_SCHEMA:
+        return plane_deny_code(doc)
+    if doc.get("schema") == CONNECTOR_SCHEMA:
+        return connector_deny_code(doc)
+    return "AUTHN-PROFILE-001"
+
+
+def check_federation() -> None:
+    schema = load_json(PACK / "schemas/identity-federation.schema.json")
+    defs = schema.get("$defs") or {}
+    if tuple((defs.get("grant") or {}).get("enum") or ()) != ALLOWED_GRANTS:
+        raise ContractError("schema grant enum must match ALLOWED_GRANTS")
+    if tuple((defs.get("authKind") or {}).get("enum") or ()) != CONNECTOR_AUTH_KINDS:
+        raise ContractError("schema authKind enum must match CONNECTOR_AUTH_KINDS")
+    for path in FEDERATION_VALID:
+        code = federation_deny_code(load_json(path))
+        if code is not None:
+            raise ContractError(f"{path.relative_to(PACK)} must be valid, got {code}")
+    for path, expected in FEDERATION_INVALID.items():
+        code = federation_deny_code(load_json(path))
+        if code != expected:
+            raise ContractError(f"{path.relative_to(PACK)} must deny with {expected}, got {code!r}")
+
+
 def assert_payment_as_membership_fixture(doc: dict) -> None:
     """Fixture must be shaped so receipt_deny_code returns AUTHN-PAY-001."""
     code = receipt_deny_code(doc)
@@ -126,6 +224,7 @@ def run() -> dict:
     check_profile_document(unknown, expect_valid=False)
     payment_as_membership = load_json(INVALID_PAYMENT_AS_MEMBERSHIP)
     assert_payment_as_membership_fixture(payment_as_membership)
+    check_federation()
 
     return {
         "schema": "wellmanifest.auth-lifecycle-conformance/v1",
@@ -137,6 +236,10 @@ def run() -> dict:
             "invalid_payment_as_membership": str(
                 INVALID_PAYMENT_AS_MEMBERSHIP.relative_to(PACK)
             ),
+            "federation_valid": [str(path.relative_to(PACK)) for path in FEDERATION_VALID],
+            "federation_invalid": {
+                str(path.relative_to(PACK)): code for path, code in FEDERATION_INVALID.items()
+            },
         },
         "digests": {
             str(path.relative_to(PACK)): "sha256:" + file_digest(path)

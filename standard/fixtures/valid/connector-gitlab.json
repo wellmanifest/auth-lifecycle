@@ -1,0 +1,26 @@
+{
+  "schema": "wellmanifest.auth-lifecycle/connector/v1",
+  "connectorId": "gitlab",
+  "partner": "GitLab",
+  "authKind": "oauth2-authorization-code-pkce",
+  "baseUrlConfigurable": true,
+  "endpoints": {
+    "authorize": "https://gitlab.com/oauth/authorize",
+    "token": "https://gitlab.com/oauth/token",
+    "api": "https://gitlab.com/api/v4"
+  },
+  "scopes": [
+    "read_api",
+    "read_repository"
+  ],
+  "custody": {
+    "vault": "envelope-encrypted",
+    "exportRefreshToken": false,
+    "consumerAccess": "broker-proxy",
+    "maxConsumerTokenSeconds": 900
+  },
+  "webhooks": {
+    "supported": true,
+    "verification": "shared-token"
+  }
+}

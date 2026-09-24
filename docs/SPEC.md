@@ -16,6 +16,17 @@
 | `AUTHN-PROFILE-001` | Unknown or undeclared AuthN profile id |
 | `AUTHN-BOUND-001` | Binding receipt missing membership-verified signal |
 | `AUTHN-PAY-001` | Payment / checkout treated as membership (denied here; saas owns `SAAS-ONBOARD-*`) |
+| `AUTHN-FED-001` | Identity plane role taken from request headers or co-hosted with a relying application |
+| `AUTHN-FED-002` | Non-standard or forbidden grant (`password`, `implicit`, no PKCE S256) |
+| `AUTHN-FED-003` | Partner refresh/API token leaves the vault |
+| `AUTHN-FED-004` | Errors without RFC 9457 problem details, stable codes or failure audit |
+| `AUTHN-FED-005` | Session cookie shared across subdomains |
+| `AUTHN-FED-006` | Webhook accepted without verification |
+
+## Identity federation
+
+The identity plane and partner connector documents are specified in
+`docs/FEDERATION.md` and `schemas/identity-federation.schema.json`.
 
 ## Artifacts
 

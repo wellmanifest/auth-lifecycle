@@ -15,6 +15,7 @@ python3 standard/conformance.py --all
 
 - `schemas/auth-lifecycle.schema.json`;
 - `schemas/auth-lifecycle.v1.gbnf`;
+- `schemas/identity-federation.schema.json`;
 - valid and invalid fixtures under `standard/fixtures/`.
 
 ## Outputs
@@ -27,6 +28,8 @@ profiles, and the fixture paths that were evaluated.
 - `AUTHN-PROFILE-001` — the authentication profile is unknown.
 - `AUTHN-BOUND-001` — membership binding exceeds the AuthN boundary.
 - `AUTHN-PAY-001` — payment state is incorrectly treated as membership.
+- `AUTHN-FED-001` … `AUTHN-FED-006` — identity plane or connector violates
+  `docs/FEDERATION.md`.
 
 ## Examples
 

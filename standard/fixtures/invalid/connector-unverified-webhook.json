@@ -1,0 +1,21 @@
+{
+  "schema": "wellmanifest.auth-lifecycle/connector/v1",
+  "connectorId": "github",
+  "partner": "GitHub",
+  "authKind": "github-app-installation",
+  "scopes": [
+    "contents:read",
+    "issues:write",
+    "pull_requests:write",
+    "metadata:read"
+  ],
+  "custody": {
+    "vault": "envelope-encrypted",
+    "exportRefreshToken": false,
+    "consumerAccess": "token-exchange",
+    "maxConsumerTokenSeconds": 900
+  },
+  "webhooks": {
+    "supported": true
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "wellmanifest.new-project/intent/v1",
+  "ticket": "ticket-004",
+  "summary": "Identity federation profile: OIDC identity plane, sessions, errors and partner connectors",
+  "placement": {
+    "home": "wellmanifest",
+    "shape": "domain_pack",
+    "runtimeOwner": null,
+    "adopt": [
+      "wellmanifest/authority-lifecycle",
+      "wellmanifest/account-runtime"
+    ]
+  },
+  "allowedPaths": [
+    ".gitignore",
+    "CHANGELOG.md",
+    "TODO.md",
+    "README.md",
+    "standard/**",
+    "schemas/identity-federation.schema.json",
+    "docs/**",
+    "dsl-manifest.json",
+    "project/ticket-004/**"
+  ],
+  "goal": {
+    "outcome": "Conformance accepts a standard identity plane and partner connectors and denies AUTHN-FED-001..006 violations."
+  }
+}

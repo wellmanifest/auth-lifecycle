@@ -1,0 +1,22 @@
+{
+  "schema": "wellmanifest.auth-lifecycle/connector/v1",
+  "connectorId": "cloudflare",
+  "partner": "Cloudflare",
+  "authKind": "scoped-api-token",
+  "endpoints": {
+    "api": "https://api.cloudflare.com/client/v4"
+  },
+  "scopes": [
+    "Zone:Read",
+    "DNS:Edit"
+  ],
+  "custody": {
+    "vault": "envelope-encrypted",
+    "exportRefreshToken": false,
+    "consumerAccess": "broker-proxy",
+    "maxConsumerTokenSeconds": 900
+  },
+  "webhooks": {
+    "supported": false
+  }
+}
