@@ -26,6 +26,7 @@ Status: `0.1.0-dev` — closed AuthN vocabulary + schema stub.
 | Isolated tool runtimes | `account-runtime` | Binding ≠ credential transfer |
 | Commercial onboarding order | `saas-lifecycle` | Profile id `membership-before-payment` only |
 | Portal OTP handlers | `subactor/www-sub-actor` | ADOPT profile ids; runtime implements |
+| Identity plane, sessions, partner connectors | **this pack** | Identity federation profile (`docs/FEDERATION.md`) |
 
 This pack owns AuthN profile vocabulary and fail-closed binding receipts. It
 does not issue authority grants, process payments or provision tenants.
@@ -40,11 +41,22 @@ does not issue authority grants, process payments or provision tenants.
 
 Unknown profile ids fail closed (`AUTHN-PROFILE-001`).
 
+## Identity federation profile
+
+`docs/FEDERATION.md` defines how a central identity plane (for example
+`user.clonerd.com`) authenticates people and devices with OAuth 2.1 / OpenID
+Connect, PKCE, the device grant and RFC 9457 errors, and how it keeps partner
+credentials (GitHub, GitLab, Atlassian, Cloudflare) in a vault behind token
+exchange or a broker proxy. Violations fail closed as `AUTHN-FED-001` …
+`AUTHN-FED-006`.
+
 ## Artifacts
 
 - Spec: `docs/SPEC.md`
 - Schema: `schemas/auth-lifecycle.schema.json`
 - GBNF: `schemas/auth-lifecycle.v1.gbnf`
+- Federation spec: `docs/FEDERATION.md`
+- Federation schema: `schemas/identity-federation.schema.json`
 - Fixtures: `standard/fixtures/**`
 
 ## Conformance

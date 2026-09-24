@@ -1,0 +1,26 @@
+{
+  "schema": "wellmanifest.auth-lifecycle/connector/v1",
+  "connectorId": "atlassian",
+  "partner": "Atlassian",
+  "authKind": "atlassian-oauth2-3lo",
+  "endpoints": {
+    "authorize": "https://auth.atlassian.com/authorize",
+    "token": "https://auth.atlassian.com/oauth/token",
+    "api": "https://api.atlassian.com"
+  },
+  "scopes": [
+    "read:jira-work",
+    "write:jira-work",
+    "offline_access"
+  ],
+  "custody": {
+    "vault": "envelope-encrypted",
+    "exportRefreshToken": false,
+    "consumerAccess": "broker-proxy",
+    "maxConsumerTokenSeconds": 900
+  },
+  "webhooks": {
+    "supported": true,
+    "verification": "jwt"
+  }
+}

@@ -9,3 +9,7 @@
   `membership-before-payment` (ticket-002 / LC-010).
 - Add `payment-as-membership` negative fixture denied as `AUTHN-PAY-001`
   (ticket-003 / LC-011).
+- Add the identity federation profile: `docs/FEDERATION.md`,
+  `schemas/identity-federation.schema.json`, `AUTHN-FED-001` … `AUTHN-FED-006`
+  runbooks, identity plane and partner connector fixtures, and conformance
+  checks (ticket-004).

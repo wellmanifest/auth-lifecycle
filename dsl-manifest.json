@@ -5,7 +5,7 @@
   "name": "Wellmanifest Auth Lifecycle",
   "version": "0.1.0-dev",
   "status": "experimental",
-  "purpose": "AuthN / membership-binding profile vocabulary and binding receipts (OTP, access-api, session-continue)",
+  "purpose": "AuthN / membership-binding profile vocabulary and binding receipts (OTP, access-api, session-continue) plus the identity federation profile (OIDC plane, sessions, partner connectors)",
   "domain": "authn-membership-binding",
   "owners": [
     {
@@ -50,22 +50,22 @@
     {
       "path": "standard/conformance.py",
       "role": "parser-contract",
-      "digest": "sha256:9ed458e5df441d718656786ad7d249b459abb23c9c7c15fc0690c5e240618976"
+      "digest": "sha256:32f9bcdcd9e713b6688d65dd8eefb387ec2e90ced2e5327d3e3898fdea6c8aa5"
     },
     {
       "path": "docs/SPEC.md",
       "role": "documentation",
-      "digest": "sha256:d5db0fcd4eba0547e63abe5731fbd1c00377e9e3dfe028602e88f61c3c901c84"
+      "digest": "sha256:9139851566a572f476c216b46945acf9e9d3327b5be74add60c3bb1e6f55cf33"
     },
     {
       "path": "docs/ARCHITECTURE.md",
       "role": "documentation",
-      "digest": "sha256:881004e31a650cf30243b5e97f92d03edbcb56f79599a4f9d977e077e96896d4"
+      "digest": "sha256:d36d587784fa6406cd05c427b6320a6b099fe414fd26a7ed89e9016e25e7aaf7"
     },
     {
       "path": "docs/VALIDATE.md",
       "role": "documentation",
-      "digest": "sha256:b027a6c9da95351eafef6991fe63883a0848c431385d16262a25699c39fd0723"
+      "digest": "sha256:ecb82cc5e864c0478498a3ea4d8ff9cdea82ade7c0dd7112b209ea8e8df138c3"
     },
     {
       "path": "docs/ERROR/AUTHN-PROFILE-001.md",
@@ -96,6 +96,101 @@
       "path": "standard/fixtures/invalid/payment-as-membership.json",
       "role": "example",
       "digest": "sha256:5f8e7dbdee96fbae5e7c9a04c06e32b61c56cbf82abec388f2fe04489c21e80f"
+    },
+    {
+      "path": "schemas/identity-federation.schema.json",
+      "role": "normative-source",
+      "digest": "sha256:fc788b173afce7c95d856f6fa1b09fac11465cd21ad1c11f3d439d82295a6051"
+    },
+    {
+      "path": "docs/FEDERATION.md",
+      "role": "documentation",
+      "digest": "sha256:37294dddf6d77ab63664cd5991bd8969a3b3cfc175f56f77ef295699be871834"
+    },
+    {
+      "path": "docs/ERROR/AUTHN-FED-001.md",
+      "role": "documentation",
+      "digest": "sha256:1546287f23e7cd87587a42f57bb3e84ba5d593d894ecbbd9de8c2cfaca6fb37f"
+    },
+    {
+      "path": "docs/ERROR/AUTHN-FED-002.md",
+      "role": "documentation",
+      "digest": "sha256:379ed25fde64c9f142c6fbd0e57814eebfe856139538d58cd307a50354005177"
+    },
+    {
+      "path": "docs/ERROR/AUTHN-FED-003.md",
+      "role": "documentation",
+      "digest": "sha256:79c0d4cfd0a34d6a1c27a0d316aade394a3f8b098ca235312d6bb3335abc6aa2"
+    },
+    {
+      "path": "docs/ERROR/AUTHN-FED-004.md",
+      "role": "documentation",
+      "digest": "sha256:91461b3d3e0ad2c28c2fa2b22738a9440085c89d6a22bbd4ce30c49e4e0d31bd"
+    },
+    {
+      "path": "docs/ERROR/AUTHN-FED-005.md",
+      "role": "documentation",
+      "digest": "sha256:208324e368f36c544b67a26a103056f93751ba8a0ef8e840427e56520cb0dbaa"
+    },
+    {
+      "path": "docs/ERROR/AUTHN-FED-006.md",
+      "role": "documentation",
+      "digest": "sha256:231787aa2ce723638526bf9ac3eb899393eb92f3164fe2c9a9920bedae08a9a5"
+    },
+    {
+      "path": "standard/fixtures/valid/identity-plane.json",
+      "role": "example",
+      "digest": "sha256:59387405f04d12ae00886adfae0d693789497e26e33aa5ec41b4e4c82bd069f6"
+    },
+    {
+      "path": "standard/fixtures/valid/connector-github.json",
+      "role": "example",
+      "digest": "sha256:d9ae6599c36c5af93105bc7386c6d8e12869262f67b3389f75659f4968f041d9"
+    },
+    {
+      "path": "standard/fixtures/valid/connector-gitlab.json",
+      "role": "example",
+      "digest": "sha256:7218efba48f38038baf9e8670021702fce669c1a1c80f3980a0c19cb6ba7f93a"
+    },
+    {
+      "path": "standard/fixtures/valid/connector-atlassian.json",
+      "role": "example",
+      "digest": "sha256:df0fa191b770e1ec1d6a1073f65e2f6a03389cac4671a6ef7f3cefa5099aaf8f"
+    },
+    {
+      "path": "standard/fixtures/valid/connector-cloudflare.json",
+      "role": "example",
+      "digest": "sha256:a46d6dcb2cc1210de1154e104c7f45aba1984ea31c477884756e837beeb274ad"
+    },
+    {
+      "path": "standard/fixtures/invalid/plane-role-from-host.json",
+      "role": "example",
+      "digest": "sha256:b9526b90df44e75d6761b2f13e876f909b7069d37be8e3a2075c4dbe919fff22"
+    },
+    {
+      "path": "standard/fixtures/invalid/plane-password-grant.json",
+      "role": "example",
+      "digest": "sha256:0eb7b4d48d493a1b8287f7852af99c80909d88bf005d0013f1a762d84dcc1428"
+    },
+    {
+      "path": "standard/fixtures/invalid/connector-token-export.json",
+      "role": "example",
+      "digest": "sha256:20ff85d2869214c1448c3165393a20f74479eae25d1e9a293c383096b989f46c"
+    },
+    {
+      "path": "standard/fixtures/invalid/plane-plain-errors.json",
+      "role": "example",
+      "digest": "sha256:1354e7279816e29840a0370014b35bb6714ba978c6100b11dd30bcbb19b749c5"
+    },
+    {
+      "path": "standard/fixtures/invalid/plane-shared-cookie.json",
+      "role": "example",
+      "digest": "sha256:5a6ad84da808139c56c892fbf691f0f7ba928bb4ce412e960f1db46ec6692b47"
+    },
+    {
+      "path": "standard/fixtures/invalid/connector-unverified-webhook.json",
+      "role": "example",
+      "digest": "sha256:1248dc107fa98d3fe197b40560ec18f5248163bff39bba639a428452edcca602"
     }
   ],
   "namespaces": [
@@ -123,6 +218,7 @@
     "responseSchemas": [],
     "naturalLanguage": "forbidden",
     "sourceSchema": null,
+    "decisionProtocol": "none",
     "modelAuthority": "none",
     "strict": true
   },
@@ -137,7 +233,13 @@
     "errorCodes": [
       "AUTHN-PROFILE-001",
       "AUTHN-BOUND-001",
-      "AUTHN-PAY-001"
+      "AUTHN-PAY-001",
+      "AUTHN-FED-001",
+      "AUTHN-FED-002",
+      "AUTHN-FED-003",
+      "AUTHN-FED-004",
+      "AUTHN-FED-005",
+      "AUTHN-FED-006"
     ],
     "criticalCodes": []
   },
@@ -172,11 +274,22 @@
       "python3 standard/conformance.py --all"
     ],
     "validExamples": [
-      "standard/fixtures/valid/otp-email-profile.json"
+      "standard/fixtures/valid/otp-email-profile.json",
+      "standard/fixtures/valid/identity-plane.json",
+      "standard/fixtures/valid/connector-github.json",
+      "standard/fixtures/valid/connector-gitlab.json",
+      "standard/fixtures/valid/connector-atlassian.json",
+      "standard/fixtures/valid/connector-cloudflare.json"
     ],
     "invalidExamples": [
       "standard/fixtures/invalid/unknown-profile.json",
-      "standard/fixtures/invalid/payment-as-membership.json"
+      "standard/fixtures/invalid/payment-as-membership.json",
+      "standard/fixtures/invalid/plane-role-from-host.json",
+      "standard/fixtures/invalid/plane-password-grant.json",
+      "standard/fixtures/invalid/connector-token-export.json",
+      "standard/fixtures/invalid/plane-plain-errors.json",
+      "standard/fixtures/invalid/plane-shared-cookie.json",
+      "standard/fixtures/invalid/connector-unverified-webhook.json"
     ]
   },
   "mappings": []

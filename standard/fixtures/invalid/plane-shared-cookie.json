@@ -1,0 +1,63 @@
+{
+  "schema": "wellmanifest.auth-lifecycle/identity-plane/v1",
+  "planeId": "user.clonerd.com",
+  "issuer": "https://user.clonerd.com",
+  "deployment": {
+    "dedicatedProcess": true,
+    "dedicatedDataStore": true,
+    "roleFromRequestHeaders": false,
+    "trustedProxies": [
+      "127.0.0.1"
+    ]
+  },
+  "protocol": {
+    "oidcDiscovery": "/.well-known/openid-configuration",
+    "grantTypes": [
+      "authorization_code",
+      "refresh_token",
+      "urn:ietf:params:oauth:grant-type:device_code"
+    ],
+    "pkceMethods": [
+      "S256"
+    ],
+    "signingAlgorithms": [
+      "EdDSA"
+    ],
+    "dpop": false,
+    "problemDetails": true
+  },
+  "sessions": {
+    "cookieScope": "parent-domain",
+    "sameSite": "Lax",
+    "httpOnly": true,
+    "absoluteSeconds": 604800,
+    "idleSeconds": 43200
+  },
+  "errors": {
+    "mediaType": "application/problem+json",
+    "codes": [
+      "invalid_credentials",
+      "session_missing",
+      "invalid_request",
+      "invalid_grant",
+      "rate_limited"
+    ],
+    "traceparent": true
+  },
+  "audit": {
+    "failures": true,
+    "secretsRedacted": true
+  },
+  "enterprise": {
+    "upstreamOidc": false,
+    "saml": false,
+    "scim": false,
+    "webauthn": false
+  },
+  "connectors": [
+    "github",
+    "gitlab",
+    "atlassian",
+    "cloudflare"
+  ]
+}

@@ -17,4 +17,14 @@ checkout / entitlement                      ← ADOPT offer + portal runtime
 authority grants / leases                   ← HOME authority-lifecycle (AuthZ)
 ```
 
+The identity federation profile (`docs/FEDERATION.md`) describes the plane that
+performs AuthN for relying applications and holds partner credentials:
+
+```text
+user plane (OIDC issuer, device grant, vault) ← HOME auth-lifecycle (profile)
+        │ OIDC code+PKCE / device grant / token exchange
+        ▼
+relying apps (app.*, mcp.*, api.*)            ← runtime ADOPT
+```
+
 Normative schema: `schemas/auth-lifecycle.schema.json`. See `docs/SPEC.md`.
